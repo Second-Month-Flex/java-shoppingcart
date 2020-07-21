@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,9 +36,7 @@ public class UserController
 
     @GetMapping(value = "/user/{userId}",
             produces = {"application/json"})
-    public ResponseEntity<?> getUserById(
-            @PathVariable
-                    Long userId)
+    public ResponseEntity<?> getUserById(@PathVariable Long userId)
     {
         User u = userService.findUserById(userId);
         return new ResponseEntity<>(u,
@@ -70,5 +69,13 @@ public class UserController
     {
         userService.delete(userId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+//    http://localhost:2019/users/myinfo
+    @GetMapping(value = "/myinfo", produces = {"application/json"})
+    public ResponseEntity<?> myInfo(Authentication authentication){
+
+        User u = userService.findByName(authentication.getName());
+
+        return new ResponseEntity<>(u,HttpStatus.OK);
     }
 }
