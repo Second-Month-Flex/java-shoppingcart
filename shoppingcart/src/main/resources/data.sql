@@ -12,6 +12,7 @@ FROM userroles;
 
 DELETE
 FROM users;
+//gnhrejkabghsrjbghre
 
 DELETE
 FROM roles;
